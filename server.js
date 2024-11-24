@@ -18,6 +18,15 @@ app.get('/movie', (req, res) => {
     ]);
 });
 
+// POST /reviews - Add a new review
+app.post('/reviews', (req, res) => {
+    const newReview = req.body;
+    res.status(201).json({
+        message: 'Review added successfully',
+        review: newReview
+    });
+});
+
 // Start the server
 app.listen(3001, () => {
     console.log('Server running on http://localhost:3001');
