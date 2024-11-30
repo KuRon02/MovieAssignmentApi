@@ -1,7 +1,30 @@
 import express from 'express';
+import dotenv from 'dotenv';
+import pg from 'pg';
+dotenv.config();
+
 var app = express();
+app.use(express.urlencoded({extended: true}));
 
 const port = process.env.port || 3001;
+
+const pgPool = new pg.Pool({
+    host: process.env.PG_HOST,
+    port: process.env.PG_PORT,
+    database: process.env.PG_DATABASE,
+    user: process.env.PG_USER,
+    password: process.env.PG_PW
+});
+
+app.get('/genre', async (req, res) => {
+    try{
+        const response = await pgPool.query("SELECT * FROM genre");
+        console.log(response.rows);
+        res.json(response.rows);
+    }catch(err){
+        console.log(err.message);
+    }
+});
 
 // Raw Endpoints
 
